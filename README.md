@@ -52,8 +52,17 @@ This repository contains Ansible playbooks to automatically provision and config
 
 ## File Structure
 
-- `setup_desktop.yml`: The main playbook containing all installation tasks and service configurations.
+- `setup_desktop.yml`: The master playbook that includes modular task files.
 - `hosts.ini`: Local inventory file mapping to `localhost`.
+- `tasks/`: Directory containing modular task files:
+  - `system.yml`: System updates and base configuration.
+  - `hardware.yml`: Drivers (NVIDIA/Intel), Razer support, and groups.
+  - `network.yml`: VPN setup (Tailscale/NordVPN) and split-tunneling.
+  - `development.yml`: Dev tools (Node, Docker, Gemini, Codex).
+  - `applications.yml`: Official and AUR app installations.
+  - `desktop_env.yml`: Hyprland and GNOME extension settings.
+  - `cli.yml`: Power user tools and Ghostty terminal.
+  - `automation.yml`: Weekday startup script and autostart config.
 
 ## Security Note
 

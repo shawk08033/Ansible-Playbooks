@@ -1,0 +1,29 @@
+---
+- name: Install Development Packages
+  pacman:
+    name:
+      - nodejs
+      - npm
+      - github-cli
+      - docker
+      - docker-compose
+      - base-devel
+      - git
+      - opencode
+    state: present
+
+- name: Enable and start Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Install Gemini and Codex via NPM
+  npm:
+    name: "{{ item }}"
+    global: yes
+    state: present
+  loop:
+    - "@google/gemini-cli"
+    - "codex"
+  ignore_errors: yes

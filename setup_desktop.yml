@@ -7,184 +7,26 @@
     ansible_user_id: shaunhawk
 
   tasks:
-    - name: Ensure multilib is enabled and system is updated
-      pacman:
-        update_cache: yes
-        upgrade: yes
+    - name: System Configuration
+      include_tasks: tasks/system.yml
 
-    - name: Detect Hardware
-      shell: |
-        lspci | grep -iE "vga|3d|display"
-        lsusb | grep -iE "razer|insta360"
-      register: hw_info
-      changed_when: false
-      ignore_errors: yes
+    - name: Hardware and Drivers
+      include_tasks: tasks/hardware.yml
 
-    - name: Install official repository packages
-      pacman:
-        name:
-          - nodejs
-          - npm
-          - github-cli
-          - steam
-          - base-devel
-          - git
-          - hyprland
-          - cachyos-hyprland-settings
-          - waybar
-          - kitty
-          - rofi-wayland
-          - swww
-          - dunst
-          - xdg-desktop-portal-hyprland
-          - qt5-wayland
-          - qt6-wayland
-          - tailscale
-          - telegram-desktop
-          - teams-for-linux
-          - opencode
-          - intel-media-driver
-          - libva-intel-driver
-          - vulkan-intel
-          - openrazer-daemon
-          - python-openrazer
-          - v4l2loopback-dkms
-          - v4l2loopback-utils
-          - eza
-          - bat
-          - fzf
-          - ripgrep
-          - btop
-          - fastfetch
-          - mangohud
-          - gamemode
-          - docker
-          - docker-compose
-          - starship
-          - ghostty
-          - ghostty-shell-integration
-        state: present
+    - name: Network and VPN
+      include_tasks: tasks/network.yml
 
-    - name: Ensure services are enabled and started
-      systemd:
-        name: "{{ item }}"
-        enabled: yes
-        state: started
-      loop:
-        - tailscaled
-        - nordvpnd
-        - docker
+    - name: Development Environment
+      include_tasks: tasks/development.yml
 
-    - name: Configure Split Tunneling for Tailscale in NordVPN
-      shell: |
-        nordvpn whitelist add subnet 100.64.0.0/10
-      register: nord_whitelist
-      changed_when: "'is already in the whitelist' not in nord_whitelist.stdout"
-      failed_when: false
-      ignore_errors: yes
+    - name: Applications (Official & AUR)
+      include_tasks: tasks/applications.yml
 
-    - name: Ensure plugdev group exists
-      group:
-        name: plugdev
-        state: present
+    - name: Desktop Environment (Hyprland & GNOME)
+      include_tasks: tasks/desktop_env.yml
 
-    - name: Add user to necessary groups for hardware access
-      user:
-        name: "{{ ansible_user_id }}"
-        groups: plugdev,video
-        append: yes
+    - name: CLI Power User Tools
+      include_tasks: tasks/cli.yml
 
-    - name: Ensure OpenRazer daemon is enabled
-      systemd:
-        name: openrazer-daemon
-        enabled: yes
-        scope: user
-      become: false
-      ignore_errors: yes
-
-    - name: Install Gemini and Codex via NPM
-      npm:
-        name: "{{ item }}"
-        global: yes
-        state: present
-      loop:
-        - "@google/gemini-cli"
-        - "codex"
-      ignore_errors: yes
-
-    - name: Allow {{ ansible_user_id }} to run pacman without password for AUR tasks
-      copy:
-        content: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-        dest: /etc/sudoers.d/ansible-aur
-        mode: '0440'
-        validate: /usr/sbin/visudo -cf %s
-
-    - name: Install AUR packages using paru
-      become: true
-      become_user: "{{ ansible_user_id }}"
-      kewlfft.aur.aur:
-        name:
-          - google-chrome
-          - cursor-bin
-          - claude-desktop-bin
-          - nordvpn-bin
-          - slack-desktop-wayland
-          - prospect-mail
-          - polychromatic
-          - gnome-shell-extension-multi-monitors-add-on-git
-        use: paru
-        state: present
-      register: aur_install
-
-    - name: Remove temporary sudoers file for AUR
-      file:
-        path: /etc/sudoers.d/ansible-aur
-        state: absent
-
-    - name: Create local bin directory
-      file:
-        path: "/home/{{ ansible_user_id }}/.local/bin"
-        state: directory
-        owner: "{{ ansible_user_id }}"
-        group: "{{ ansible_user_id }}"
-        mode: '0755'
-
-    - name: Create weekday startup script
-      copy:
-        dest: "/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh"
-        owner: "{{ ansible_user_id }}"
-        group: "{{ ansible_user_id }}"
-        mode: '0755'
-        content: |
-          #!/bin/bash
-          # Get current day of week (1=Mon, 7=Sun)
-          DAY=$(date +%u)
-          if [ "$DAY" -le 5 ]; then
-              # Start Teams and Slack in the background
-              teams-for-linux &
-              slack &
-          fi
-
-    - name: Ensure autostart directory exists
-      file:
-        path: "/home/{{ ansible_user_id }}/.config/autostart"
-        state: directory
-        owner: "{{ ansible_user_id }}"
-        group: "{{ ansible_user_id }}"
-        mode: '0755'
-
-    - name: Create autostart desktop entry for weekday apps
-      copy:
-        dest: "/home/{{ ansible_user_id }}/.config/autostart/weekday_apps.desktop"
-        owner: "{{ ansible_user_id }}"
-        group: "{{ ansible_user_id }}"
-        mode: '0644'
-        content: |
-          [Desktop Entry]
-          Type=Application
-          Exec=/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh
-          Hidden=false
-          NoDisplay=false
-          X-GNOME-Autostart-enabled=true
-          Name=Weekday Startup
-          Comment=Starts Teams and Slack only on weekdays
+    - name: Automation and Startup
+      include_tasks: tasks/automation.yml

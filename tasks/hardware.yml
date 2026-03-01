@@ -1,0 +1,39 @@
+---
+- name: Detect Hardware
+  shell: |
+    lspci | grep -iE "vga|3d|display"
+    lsusb | grep -iE "razer|insta360"
+  register: hw_info
+  changed_when: false
+  ignore_errors: yes
+
+- name: Install Drivers and Hardware Tools
+  pacman:
+    name:
+      - intel-media-driver
+      - libva-intel-driver
+      - vulkan-intel
+      - openrazer-daemon
+      - python-openrazer
+      - v4l2loopback-dkms
+      - v4l2loopback-utils
+    state: present
+
+- name: Ensure plugdev group exists
+  group:
+    name: plugdev
+    state: present
+
+- name: Add user to necessary groups for hardware access
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: plugdev,video
+    append: yes
+
+- name: Ensure OpenRazer daemon is enabled
+  systemd:
+    name: openrazer-daemon
+    enabled: yes
+    scope: user
+  become: false
+  ignore_errors: yes

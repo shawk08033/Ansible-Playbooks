@@ -1,0 +1,26 @@
+---
+- name: Install Network Tools
+  pacman:
+    name:
+      - tailscale
+    state: present
+
+- name: Enable and start Tailscale service
+  systemd:
+    name: tailscaled
+    enabled: yes
+    state: started
+
+- name: Enable and start NordVPN service
+  systemd:
+    name: nordvpnd
+    enabled: yes
+    state: started
+
+- name: Configure Split Tunneling for Tailscale in NordVPN
+  shell: |
+    nordvpn whitelist add subnet 100.64.0.0/10
+  register: nord_whitelist
+  changed_when: "'is already in the whitelist' not in nord_whitelist.stdout"
+  failed_when: false
+  ignore_errors: yes

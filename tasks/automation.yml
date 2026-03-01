@@ -1,0 +1,48 @@
+---
+- name: Create local bin directory
+  file:
+    path: "/home/{{ ansible_user_id }}/.local/bin"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+
+- name: Create weekday startup script
+  copy:
+    dest: "/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      # Get current day of week (1=Mon, 7=Sun)
+      DAY=$(date +%u)
+      if [ "$DAY" -le 5 ]; then
+          # Start Teams and Slack in the background
+          teams-for-linux &
+          slack &
+      fi
+
+- name: Ensure autostart directory exists
+  file:
+    path: "/home/{{ ansible_user_id }}/.config/autostart"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+
+- name: Create autostart desktop entry for weekday apps
+  copy:
+    dest: "/home/{{ ansible_user_id }}/.config/autostart/weekday_apps.desktop"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Exec=/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh
+      Hidden=false
+      NoDisplay=false
+      X-GNOME-Autostart-enabled=true
+      Name=Weekday Startup
+      Comment=Starts Teams and Slack only on weekdays

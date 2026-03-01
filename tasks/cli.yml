@@ -1,0 +1,16 @@
+---
+- name: Install Power User CLI Tools
+  pacman:
+    name:
+      - eza
+      - bat
+      - fzf
+      - ripgrep
+      - btop
+      - fastfetch
+      - mangohud
+      - gamemode
+      - starship
+      - ghostty
+      - ghostty-shell-integration
+    state: present

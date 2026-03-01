@@ -1,0 +1,5 @@
+---
+- name: Ensure multilib is enabled and system is updated
+  pacman:
+    update_cache: yes
+    upgrade: yes

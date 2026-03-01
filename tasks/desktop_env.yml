@@ -1,0 +1,23 @@
+---
+- name: Install Desktop Environment Packages
+  pacman:
+    name:
+      - hyprland
+      - cachyos-hyprland-settings
+      - waybar
+      - kitty
+      - rofi-wayland
+      - swww
+      - dunst
+      - xdg-desktop-portal-hyprland
+      - qt5-wayland
+      - qt6-wayland
+    state: present
+
+- name: Enable GNOME Multi Monitors extension
+  become: true
+  become_user: "{{ ansible_user_id }}"
+  shell: |
+    gnome-extensions enable multi-monitors-add-on@spin83
+  ignore_errors: yes
+  changed_when: false
