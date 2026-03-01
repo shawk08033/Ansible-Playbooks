@@ -120,3 +120,22 @@
         },
         "version": "v0"
       }
+
+- name: Ensure Lutris config directory exists
+  file:
+    path: "/home/{{ user_id }}/.config/lutris"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+
+- name: Set Lutris default paths
+  copy:
+    dest: "/home/{{ user_id }}/.config/lutris/lutris.conf"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      [lutris]
+      default_installer_path = /mnt/games/Lutris
+      wine_prefix = /home/{{ user_id }}/Games/Lutris/Prefixes
