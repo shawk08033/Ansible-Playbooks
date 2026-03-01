@@ -68,9 +68,9 @@ This repository contains Ansible playbooks to automatically provision and config
    (You will be prompted to create a vault password).
 
 3. **Run the Playbook:**
-   Execute the setup with the following command. You will be prompted for your `sudo` password AND your vault password.
+   Execute the setup with the following command. The vault password will be automatically read from your local `.vault_pass` file (which is ignored by Git).
    ```bash
-   ansible-playbook -i hosts.ini setup_desktop.yml -K --ask-vault-pass
+   ansible-playbook -i hosts.ini setup_desktop.yml -K --vault-password-file .vault_pass
    ```
 
 ## File Structure
