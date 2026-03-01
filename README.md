@@ -32,7 +32,7 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Communication:** Slack (Wayland), Teams, Telegram, and Outlook (Prospect Mail).
 - **Networking:** 
   - **Tailscale** for private mesh networking.
-  - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10`).
+  - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10`) and **NordVPN GUI** for desktop management.
 - **Security & Hardening:**
   - **UFW Firewall:** Enabled with a "deny" incoming policy.
   - **ClamAV Antivirus:** Daemon and auto-updater (`freshclam`) enabled.
