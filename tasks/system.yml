@@ -28,7 +28,7 @@
 - name: Mount Windows Games and Programes volume
   mount:
     path: /mnt/games
-    src: UUID=3A1434BA14347B49
+    src: UUID={{ windows_games_uuid }}
     fstype: ntfs3
     opts: rw,noatime,uid=1000,gid=1000,umask=0022,nofail,x-systemd.device-timeout=5s
     state: mounted
@@ -37,7 +37,7 @@
 - name: Mount Windows Storage volume
   mount:
     path: /mnt/storage
-    src: UUID=34D6ED73D6ED35B0
+    src: UUID={{ windows_storage_uuid }}
     fstype: ntfs3
     opts: rw,noatime,uid=1000,gid=1000,umask=0022,nofail,x-systemd.device-timeout=5s
     state: mounted

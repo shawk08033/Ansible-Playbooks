@@ -7,3 +7,10 @@ user_id: "your_username"
 email_personal_primary: "primary@example.com"
 email_personal_secondary: "secondary@example.com"
 email_work: "work@example.com"
+
+# Network & Storage
+unraid_ip: "192.168.2.156"
+local_subnet: "192.168.2.0/24"
+unraid_documents_remote_path: "/mnt/user/Documents"
+windows_games_uuid: "3A1434BA14347B49"
+windows_storage_uuid: "34D6ED73D6ED35B0"
