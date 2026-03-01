@@ -1,0 +1,95 @@
+---
+- name: Setup Desktop Environment
+  hosts: localhost
+  connection: local
+  become: true
+  vars:
+    ansible_user_id: shaunhawk
+
+  tasks:
+    - name: Ensure multilib is enabled and system is updated
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install official repository packages
+      pacman:
+        name:
+          - nodejs
+          - npm
+          - github-cli
+          - steam
+          - base-devel
+          - git
+          - hyprland
+          - cachyos-hyprland-settings
+          - waybar
+          - kitty
+          - rofi-wayland
+          - swww
+          - dunst
+          - xdg-desktop-portal-hyprland
+          - qt5-wayland
+          - qt6-wayland
+          - tailscale
+          - telegram-desktop
+          - teams-for-linux
+          - opencode
+        state: present
+
+    - name: Install Gemini and Codex via NPM
+      npm:
+        name: "{{ item }}"
+        global: yes
+        state: present
+      loop:
+        - "@google/gemini-cli"
+        - "codex"
+      ignore_errors: yes
+
+    - name: Allow {{ ansible_user_id }} to run pacman without password for AUR tasks
+      copy:
+        content: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        dest: /etc/sudoers.d/ansible-aur
+        mode: '0440'
+        validate: /usr/sbin/visudo -cf %s
+
+    - name: Install AUR packages using paru
+      become: true
+      become_user: "{{ ansible_user_id }}"
+      kewlfft.aur.aur:
+        name:
+          - google-chrome
+          - cursor-bin
+          - claude-desktop-bin
+          - nordvpn-bin
+          - slack-desktop-wayland
+          - prospect-mail
+        use: paru
+        state: present
+      register: aur_install
+
+    - name: Remove temporary sudoers file for AUR
+      file:
+        path: /etc/sudoers.d/ansible-aur
+        state: absent
+
+    - name: Enable and start Tailscale service
+      systemd:
+        name: tailscaled
+        enabled: yes
+        state: started
+
+    - name: Enable and start NordVPN service
+      systemd:
+        name: nordvpnd
+        enabled: yes
+        state: started
+
+    - name: Configure Split Tunneling for Tailscale in NordVPN
+      shell: |
+        nordvpn whitelist add subnet 100.64.0.0/10
+      register: nord_whitelist
+      changed_when: "'is already in the whitelist' not in nord_whitelist.stdout"
+      failed_when: false
+      ignore_errors: yes
