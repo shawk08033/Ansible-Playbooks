@@ -16,6 +16,9 @@ This repository contains Ansible playbooks to automatically provision and config
     - **Work (`~/Code/Huckleberry/`):** `shawk@fsmenergy.com` (Huckleberry projects)
 - **Storage:**
   - Automated mounting of **3.6TB Storage** and **3.2TB Games and Programes** Windows volumes to `/mnt/storage` and `/mnt/games`.
+- **Network Shares & Discovery:**
+  - **NFS & SMB/CIFS** support for connecting to Unraid or other NAS shares.
+  - **Avahi (mDNS)** enabled for easy `.local` device discovery.
 - **Terminals:** **Ghostty** (native, fast, feature-rich) with Starship prompt.
 - **Hardware Drivers:**
   - **NVIDIA:** CachyOS-optimized proprietary drivers for RTX 4060.

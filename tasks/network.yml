@@ -1,9 +1,19 @@
 ---
-- name: Install Network Tools
+- name: Install Network and Share Tools
   pacman:
     name:
       - tailscale
+      - nfs-utils
+      - cifs-utils
+      - avahi
+      - nss-mdns
     state: present
+
+- name: Enable Avahi for .local mDNS resolution
+  systemd:
+    name: avahi-daemon
+    enabled: yes
+    state: started
 
 - name: Enable and start Tailscale service
   systemd:
