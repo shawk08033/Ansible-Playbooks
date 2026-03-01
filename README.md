@@ -6,6 +6,8 @@ This repository contains Ansible playbooks to automatically provision and config
 
 - **Window Managers:** Hybrid setup with GNOME and a fully configured **Hyprland** (CachyOS optimized).
   - GNOME enhanced with **Multi-Monitor Add-on** (Top bar on all screens).
+- **Automation:**
+  - Automated **Weekday Startup** (Mon-Fri) for Teams and Slack via a custom bash script.
 - **Terminals:** **Ghostty** (native, fast, feature-rich) with Starship prompt.
 - **Hardware Drivers:**
   - **NVIDIA:** CachyOS-optimized proprietary drivers for RTX 4060.
