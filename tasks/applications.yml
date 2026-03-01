@@ -143,6 +143,38 @@
       default_installer_path = /mnt/games/Lutris
       wine_prefix = /home/{{ user_id }}/Games/Lutris/Prefixes
 
+- name: Ensure local applications directory exists
+  file:
+    path: "/home/{{ user_id }}/.local/share/applications"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+
+- name: Ensure local icons directory exists
+  file:
+    path: "/home/{{ user_id }}/.local/share/icons"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+
+- name: Create X Desktop Entry
+  copy:
+    dest: "/home/{{ user_id }}/.local/share/applications/x.desktop"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Name=X
+      Exec=google-chrome-stable --app=https://x.com
+      Icon=network-wired
+      Type=Application
+      Terminal=false
+      Categories=Network;Social;
+      Comment=X (Twitter) Web App
+
 - name: Ensure Lutris local share directory exists
   file:
     path: "/home/{{ user_id }}/.local/share/lutris"
