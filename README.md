@@ -60,12 +60,11 @@ This repository contains Ansible playbooks to automatically provision and config
    cd Ansible-Playbooks
    ```
 
-2. **Encrypt your sensitive variables:**
-   This project uses Ansible Vault to protect personal data (emails, usernames).
-   ```bash
-   ansible-vault encrypt vars/vault.yml
-   ```
-   (You will be prompted to create a vault password).
+2. **Setup your sensitive variables:**
+   - Copy the example file: `cp vars/vault.yml.example vars/vault.yml`
+   - Fill in your personal details in `vars/vault.yml`.
+   - Create a local `.vault_pass` file with your vault password.
+   - Encrypt your vault: `ansible-vault encrypt vars/vault.yml --vault-password-file .vault_pass`
 
 3. **Run the Playbook:**
    Execute the setup with the following command. The vault password will be automatically read from your local `.vault_pass` file (which is ignored by Git).

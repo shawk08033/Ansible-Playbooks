@@ -1,0 +1,9 @@
+---
+# Copy this file to vars/vault.yml and fill in your values
+# Then encrypt it using: ansible-vault encrypt vars/vault.yml --vault-password-file .vault_pass
+
+user_name: "Your Name"
+user_id: "your_username"
+email_personal_primary: "primary@example.com"
+email_personal_secondary: "secondary@example.com"
+email_work: "work@example.com"
