@@ -1,0 +1,43 @@
+---
+- name: Install Security Tools
+  pacman:
+    name:
+      - clamav
+      - ufw
+      - gufw
+      - rkhunter
+      - lynis
+    state: present
+
+- name: Enable and start ClamAV Freshclam (Updater)
+  systemd:
+    name: clamav-freshclam
+    enabled: yes
+    state: started
+
+- name: Enable and start ClamAV Daemon
+  systemd:
+    name: clamav-daemon
+    enabled: yes
+    state: started
+
+- name: Enable UFW Firewall
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+- name: Allow common traffic in UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 22
+    - 80
+    - 443
+
+- name: Run initial Rkhunter propupd
+  command: rkhunter --propupd
+  changed_when: false
+  ignore_errors: yes

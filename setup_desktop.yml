@@ -28,5 +28,8 @@
     - name: CLI Power User Tools
       include_tasks: tasks/cli.yml
 
+    - name: Security and Hardening
+      include_tasks: tasks/security.yml
+
     - name: Automation and Startup
       include_tasks: tasks/automation.yml

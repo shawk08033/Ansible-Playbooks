@@ -33,6 +33,11 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Networking:** 
   - **Tailscale** for private mesh networking.
   - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10`).
+- **Security & Hardening:**
+  - **UFW Firewall:** Enabled with a "deny" incoming policy.
+  - **ClamAV Antivirus:** Daemon and auto-updater (`freshclam`) enabled.
+  - **Rkhunter:** Installed and initialized for rootkit detection.
+  - **Lynis:** System auditing tool for security hardening.
 
 ## Prerequisites
 
