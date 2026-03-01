@@ -169,7 +169,7 @@
       [Desktop Entry]
       Name=X
       Exec=google-chrome-stable --app=https://x.com
-      Icon=network-wired
+      Icon=/home/{{ user_id }}/.local/share/icons/x.png
       Type=Application
       Terminal=false
       Categories=Network;Social;
