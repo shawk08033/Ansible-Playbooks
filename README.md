@@ -41,7 +41,7 @@ This repository contains Ansible playbooks to automatically provision and config
   - **ProtonUp-Qt** for managing Proton/Wine versions.
   - Full **Wine-Staging** environment with 32-bit dependencies for maximum compatibility.
   - **MangoHud** for performance overlays.
-- **Communication:** Slack (Wayland), Teams, Telegram, and Outlook (Prospect Mail).
+- **Communication:** Slack (Wayland), Teams, Telegram, **Discord** (Vesktop optimized for Wayland), and Outlook (Prospect Mail).
 - **Networking:** 
   - **Tailscale** for private mesh networking.
   - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10` and local subnet `192.168.2.0/24`) and **NordVPN GUI**.
