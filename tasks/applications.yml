@@ -175,6 +175,22 @@
       Categories=Network;Social;
       Comment=X (Twitter) Web App
 
+- name: Create Bluesky Desktop Entry
+  copy:
+    dest: "/home/{{ user_id }}/.local/share/applications/bluesky.desktop"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Name=Bluesky
+      Exec=google-chrome-stable --app=https://bsky.app
+      Icon=/home/{{ user_id }}/.local/share/icons/bluesky.png
+      Type=Application
+      Terminal=false
+      Categories=Network;Social;
+      Comment=Bluesky Social Web App
+
 - name: Ensure Lutris local share directory exists
   file:
     path: "/home/{{ user_id }}/.local/share/lutris"

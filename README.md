@@ -36,6 +36,7 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Power User CLI:** `eza` (ls), `bat` (cat), `fzf` (fuzzy finder), `ripgrep` (search), `btop` (monitor), `fastfetch` (sysinfo).
 - **Productivity:**
   - **Flameshot** for advanced screenshots and annotations.
+  - **X (Twitter)** and **Bluesky** PWA desktop apps for social media.
 - **Gaming:** 
   - **Steam**, **Heroic Games Launcher** (Epic, GOG, Amazon), and **Lutris** (Ubisoft Connect, GOG).
   - **ProtonUp-Qt** for managing Proton/Wine versions.
