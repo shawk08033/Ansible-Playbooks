@@ -27,9 +27,10 @@
     enabled: yes
     state: started
 
-- name: Configure Split Tunneling for Tailscale in NordVPN
+- name: Configure Split Tunneling for local network and Tailscale in NordVPN
   shell: |
     nordvpn whitelist add subnet 100.64.0.0/10
+    nordvpn whitelist add subnet 192.168.2.0/24
   register: nord_whitelist
   changed_when: "'is already in the whitelist' not in nord_whitelist.stdout"
   failed_when: false

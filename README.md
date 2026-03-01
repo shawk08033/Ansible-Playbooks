@@ -42,9 +42,9 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Communication:** Slack (Wayland), Teams, Telegram, and Outlook (Prospect Mail).
 - **Networking:** 
   - **Tailscale** for private mesh networking.
-  - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10`) and **NordVPN GUI** for desktop management.
+  - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10` and local subnet `192.168.2.0/24`) and **NordVPN GUI**.
 - **Security & Hardening:**
-  - **UFW Firewall:** Enabled with a "deny" incoming policy.
+  - **UFW Firewall:** Enabled with a "deny" incoming policy and automated **Local Subnet (192.168.2.0/24) Allowance**.
   - **ClamAV Antivirus:** Daemon and auto-updater (`freshclam`) enabled.
   - **Rkhunter:** Installed and initialized for rootkit detection.
   - **Lynis:** System auditing tool for security hardening.
