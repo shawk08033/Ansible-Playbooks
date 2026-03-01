@@ -10,6 +10,7 @@
       - protonup-qt
       - wine-staging
       - winetricks
+      - flameshot
       - giflib
       - lib32-giflib
       - libpng

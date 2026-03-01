@@ -24,6 +24,8 @@ This repository contains Ansible playbooks to automatically provision and config
   - AI Tools: Gemini CLI, Codex, OpenCode
   - **Docker** & Docker Compose for containerization.
 - **Power User CLI:** `eza` (ls), `bat` (cat), `fzf` (fuzzy finder), `ripgrep` (search), `btop` (monitor), `fastfetch` (sysinfo).
+- **Productivity:**
+  - **Flameshot** for advanced screenshots and annotations.
 - **Gaming:** 
   - **Steam**, **Heroic Games Launcher** (Epic, GOG, Amazon), and **Lutris** (Ubisoft Connect, GOG).
   - **ProtonUp-Qt** for managing Proton/Wine versions.
