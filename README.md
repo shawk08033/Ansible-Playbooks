@@ -9,6 +9,7 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Automation:**
   - Automated **Weekday Startup** (Mon-Fri) for Teams and Slack via a custom bash script.
   - Automated **Windows Dynamic Disks (LDM) Mounting** at login for multi-disk stripped volumes.
+  - Automated **HDD Spindown** (10 minutes idle) for Windows storage drives via udev rules.
 - **Git Configuration:**
   - **Multi-profile Git** setup using `includeIf`:
     - **Default:** `shawk08033@gmail.com`

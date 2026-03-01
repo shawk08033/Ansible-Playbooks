@@ -68,3 +68,16 @@
       X-GNOME-Autostart-enabled=true
       Name=LDM Mount
       Comment=Mounts Windows Dynamic Disks at startup
+
+- name: Configure HDD Spindown via udev rules (10 minutes)
+  copy:
+    dest: /etc/udev/rules.d/69-hd-spindown.rules
+    mode: '0644'
+    content: |
+      # Set spindown for sdb (Z1E8WSJ9) and sdc (5YD37FPW)
+      ACTION=="add", SUBSYSTEM=="block", ENV{ID_SERIAL_SHORT}=="Z1E8WSJ9", RUN+="/usr/bin/hdparm -S 120 /dev/%k"
+      ACTION=="add", SUBSYSTEM=="block", ENV{ID_SERIAL_SHORT}=="5YD37FPW", RUN+="/usr/bin/hdparm -S 120 /dev/%k"
+
+- name: Apply udev rules
+  shell: udevadm control --reload-rules && udevadm trigger
+  changed_when: false

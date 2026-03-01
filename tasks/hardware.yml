@@ -17,6 +17,7 @@
       - python-openrazer
       - v4l2loopback-dkms
       - v4l2loopback-utils
+      - hdparm
     state: present
 
 - name: Ensure plugdev group exists
