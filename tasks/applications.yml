@@ -11,6 +11,8 @@
       - wine-staging
       - winetricks
       - flameshot
+      - gnome-keyring
+      - libsecret
       - giflib
       - lib32-giflib
       - libpng
@@ -139,3 +141,11 @@
       [lutris]
       default_installer_path = /mnt/games/Lutris
       wine_prefix = /home/{{ user_id }}/Games/Lutris/Prefixes
+
+- name: Ensure Lutris local share directory exists
+  file:
+    path: "/home/{{ user_id }}/.local/share/lutris"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
