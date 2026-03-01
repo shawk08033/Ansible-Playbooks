@@ -1,0 +1,51 @@
+---
+- name: Create Git profile directories
+  file:
+    path: "/home/{{ ansible_user_id }}/Code/{{ item }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+  loop:
+    - Personal
+    - Huckleberry
+
+- name: Create Personal Git config
+  copy:
+    dest: "/home/{{ ansible_user_id }}/.gitconfig-personal"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0644'
+    content: |
+      [user]
+        name = Shaun Hawk
+        email = shaun@shaunhawk.com
+
+- name: Create Work (Huckleberry) Git config
+  copy:
+    dest: "/home/{{ ansible_user_id }}/.gitconfig-work"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0644'
+    content: |
+      [user]
+        name = Shaun Hawk
+        email = shawk@fsmenergy.com
+
+- name: Configure main .gitconfig with includeIf
+  blockinfile:
+    path: "/home/{{ ansible_user_id }}/.gitconfig"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0644'
+    create: yes
+    block: |
+      [user]
+        name = Shaun Hawk
+        email = shawk08033@gmail.com
+
+      [includeIf "gitdir:~/Code/Personal/"]
+        path = ~/.gitconfig-personal
+
+      [includeIf "gitdir:~/Code/Huckleberry/"]
+        path = ~/.gitconfig-work

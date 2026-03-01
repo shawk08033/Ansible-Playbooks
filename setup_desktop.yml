@@ -19,6 +19,9 @@
     - name: Development Environment
       include_tasks: tasks/development.yml
 
+    - name: Multi-profile Git Configuration
+      include_tasks: tasks/git_config.yml
+
     - name: Applications (Official & AUR)
       include_tasks: tasks/applications.yml
 

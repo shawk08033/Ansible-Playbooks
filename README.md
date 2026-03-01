@@ -9,6 +9,11 @@ This repository contains Ansible playbooks to automatically provision and config
 - **Automation:**
   - Automated **Weekday Startup** (Mon-Fri) for Teams and Slack via a custom bash script.
   - Automated **Windows Dynamic Disks (LDM) Mounting** at login for multi-disk stripped volumes.
+- **Git Configuration:**
+  - **Multi-profile Git** setup using `includeIf`:
+    - **Default:** `shawk08033@gmail.com`
+    - **Personal (`~/Code/Personal/`):** `shaun@shaunhawk.com`
+    - **Work (`~/Code/Huckleberry/`):** `shawk@fsmenergy.com` (Huckleberry projects)
 - **Storage:**
   - Automated mounting of **3.6TB Storage** and **3.2TB Games and Programes** Windows volumes to `/mnt/storage` and `/mnt/games`.
 - **Terminals:** **Ghostty** (native, fast, feature-rich) with Starship prompt.
