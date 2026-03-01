@@ -82,3 +82,69 @@
       changed_when: "'is already in the whitelist' not in nord_whitelist.stdout"
       failed_when: false
       ignore_errors: yes
+
+    - name: Ensure plugdev group exists
+      group:
+        name: plugdev
+        state: present
+
+    - name: Add user to necessary groups for hardware access
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: plugdev,video
+        append: yes
+
+    - name: Ensure OpenRazer daemon is enabled
+      systemd:
+        name: openrazer-daemon
+        enabled: yes
+        scope: user
+      become: false
+      ignore_errors: yes
+
+    - name: Install Gemini and Codex via NPM
+      npm:
+        name: "{{ item }}"
+        global: yes
+        state: present
+      loop:
+        - "@google/gemini-cli"
+        - "codex"
+      ignore_errors: yes
+
+    - name: Allow {{ ansible_user_id }} to run pacman without password for AUR tasks
+      copy:
+        content: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        dest: /etc/sudoers.d/ansible-aur
+        mode: '0440'
+        validate: /usr/sbin/visudo -cf %s
+
+    - name: Install AUR packages using paru
+      become: true
+      become_user: "{{ ansible_user_id }}"
+      kewlfft.aur.aur:
+        name:
+          - google-chrome
+          - cursor-bin
+          - claude-desktop-bin
+          - nordvpn-bin
+          - slack-desktop-wayland
+          - prospect-mail
+          - polychromatic
+          - gnome-shell-extension-multi-monitors-add-on-git
+        use: paru
+        state: present
+      register: aur_install
+
+    - name: Remove temporary sudoers file for AUR
+      file:
+        path: /etc/sudoers.d/ansible-aur
+        state: absent
+
+    - name: Enable GNOME Multi Monitors extension
+      become: true
+      become_user: "{{ ansible_user_id }}"
+      shell: |
+        gnome-extensions enable multi-monitors-add-on@spin83
+      ignore_errors: yes
+      changed_when: false
