@@ -60,10 +60,17 @@ This repository contains Ansible playbooks to automatically provision and config
    cd Ansible-Playbooks
    ```
 
-2. **Run the Playbook:**
-   Execute the setup with the following command. You will be prompted for your `sudo` password.
+2. **Encrypt your sensitive variables:**
+   This project uses Ansible Vault to protect personal data (emails, usernames).
    ```bash
-   ansible-playbook -i hosts.ini setup_desktop.yml -K
+   ansible-vault encrypt vars/vault.yml
+   ```
+   (You will be prompted to create a vault password).
+
+3. **Run the Playbook:**
+   Execute the setup with the following command. You will be prompted for your `sudo` password AND your vault password.
+   ```bash
+   ansible-playbook -i hosts.ini setup_desktop.yml -K --ask-vault-pass
    ```
 
 ## File Structure

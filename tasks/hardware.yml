@@ -26,7 +26,7 @@
 
 - name: Add user to necessary groups for hardware access
   user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ user_id }}"
     groups: plugdev,video
     append: yes
 

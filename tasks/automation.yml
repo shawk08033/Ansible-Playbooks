@@ -1,17 +1,17 @@
 ---
 - name: Create local bin directory
   file:
-    path: "/home/{{ ansible_user_id }}/.local/bin"
+    path: "/home/{{ user_id }}/.local/bin"
     state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0755'
 
 - name: Create weekday startup script
   copy:
-    dest: "/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    dest: "/home/{{ user_id }}/.local/bin/weekday_startup.sh"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0755'
     content: |
       #!/bin/bash
@@ -25,9 +25,9 @@
 
 - name: Create LDM setup script
   copy:
-    dest: "/home/{{ ansible_user_id }}/.local/bin/ldm_setup.sh"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    dest: "/home/{{ user_id }}/.local/bin/ldm_setup.sh"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0755'
     content: |
       #!/bin/bash
@@ -36,33 +36,33 @@
       # Mount them (if in fstab)
       sudo mount -a
 
-- name: Allow {{ ansible_user_id }} to run ldmtool and mount without password
+- name: Allow {{ user_id }} to run ldmtool and mount without password
   copy:
     content: |
-      {{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/ldmtool
-      {{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/mount -a
+      {{ user_id }} ALL=(ALL) NOPASSWD: /usr/bin/ldmtool
+      {{ user_id }} ALL=(ALL) NOPASSWD: /usr/bin/mount -a
     dest: /etc/sudoers.d/ldm-mount
     mode: '0440'
     validate: /usr/sbin/visudo -cf %s
 
 - name: Ensure autostart directory exists
   file:
-    path: "/home/{{ ansible_user_id }}/.config/autostart"
+    path: "/home/{{ user_id }}/.config/autostart"
     state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0755'
 
 - name: Create autostart desktop entry for LDM mount
   copy:
-    dest: "/home/{{ ansible_user_id }}/.config/autostart/ldm_mount.desktop"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    dest: "/home/{{ user_id }}/.config/autostart/ldm_mount.desktop"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0644'
     content: |
       [Desktop Entry]
       Type=Application
-      Exec=/home/{{ ansible_user_id }}/.local/bin/ldm_setup.sh
+      Exec=/home/{{ user_id }}/.local/bin/ldm_setup.sh
       Hidden=false
       NoDisplay=false
       X-GNOME-Autostart-enabled=true

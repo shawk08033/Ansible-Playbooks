@@ -1,0 +1,9 @@
+---
+# This file will be encrypted using 'ansible-vault encrypt vars/vault.yml'
+# The master playbook will include this as a variable file.
+
+user_name: "Shaun Hawk"
+user_id: "shaunhawk"
+email_personal_primary: "shawk08033@gmail.com"
+email_personal_secondary: "shaun@shaunhawk.com"
+email_work: "shawk@fsmenergy.com"

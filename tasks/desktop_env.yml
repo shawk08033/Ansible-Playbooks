@@ -16,7 +16,7 @@
 
 - name: Enable GNOME Multi Monitors extension
   become: true
-  become_user: "{{ ansible_user_id }}"
+  become_user: "{{ user_id }}"
   shell: |
     gnome-extensions enable multi-monitors-add-on@spin83
   ignore_errors: yes

@@ -1,10 +1,10 @@
 ---
 - name: Create Git profile directories
   file:
-    path: "/home/{{ ansible_user_id }}/Code/{{ item }}"
+    path: "/home/{{ user_id }}/Code/{{ item }}"
     state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0755'
   loop:
     - Personal
@@ -12,37 +12,37 @@
 
 - name: Create Personal Git config
   copy:
-    dest: "/home/{{ ansible_user_id }}/.gitconfig-personal"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    dest: "/home/{{ user_id }}/.gitconfig-personal"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0644'
     content: |
       [user]
-        name = Shaun Hawk
-        email = shaun@shaunhawk.com
+        name = {{ user_name }}
+        email = {{ email_personal_secondary }}
 
 - name: Create Work (Huckleberry) Git config
   copy:
-    dest: "/home/{{ ansible_user_id }}/.gitconfig-work"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    dest: "/home/{{ user_id }}/.gitconfig-work"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0644'
     content: |
       [user]
-        name = Shaun Hawk
-        email = shawk@fsmenergy.com
+        name = {{ user_name }}
+        email = {{ email_work }}
 
 - name: Configure main .gitconfig with includeIf
   blockinfile:
-    path: "/home/{{ ansible_user_id }}/.gitconfig"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    path: "/home/{{ user_id }}/.gitconfig"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
     mode: '0644'
     create: yes
     block: |
       [user]
-        name = Shaun Hawk
-        email = shawk08033@gmail.com
+        name = {{ user_name }}
+        email = {{ email_personal_primary }}
 
       [includeIf "gitdir:~/Code/Personal/"]
         path = ~/.gitconfig-personal
