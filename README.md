@@ -12,9 +12,9 @@ This repository contains Ansible playbooks to automatically provision and config
   - Automated **HDD Spindown** (10 minutes idle) for Windows storage drives via udev rules.
 - **Git Configuration:**
   - **Multi-profile Git** setup using `includeIf`:
-    - **Default:** `shawk08033@gmail.com`
-    - **Personal (`~/Code/Personal/`):** `shaun@shaunhawk.com`
-    - **Work (`~/Code/Huckleberry/`):** `shawk@fsmenergy.com` (Huckleberry projects)
+    - **Default:** Personal identity (Gmail)
+    - **Personal (`~/Code/Personal/`):** Personal identity (shaunhawk.com)
+    - **Work (`~/Code/Huckleberry/`):** Work identity (fsmenergy.com)
 - **Storage:**
   - Automated mounting of **3.6TB Storage** and **3.2TB Games and Programes** Windows volumes to `/mnt/storage` and `/mnt/games`.
 - **Network Shares & Discovery:**
