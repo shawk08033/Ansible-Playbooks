@@ -10,6 +10,9 @@
       - base-devel
       - git
       - opencode
+      - rust
+      - go
+      - lua
     state: present
 
 - name: Enable and start Docker service

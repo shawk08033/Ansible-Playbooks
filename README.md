@@ -18,8 +18,8 @@ This repository contains Ansible playbooks to automatically provision and config
   - **Razer:** OpenRazer drivers and Polychromatic for peripheral control.
   - **Webcam:** v4l2loopback for Insta360 and other virtual camera support.
 - **Development:** 
-  - Node.js & NPM
-  - Cursor, Claude Desktop, Slack, Teams
+  - Node.js, NPM, **Rust**, **Go**, and **Lua**.
+  - Cursor, Claude Desktop, **Claude CLI** (`cc-switch`), Slack, Teams.
   - GitHub CLI (gh)
   - AI Tools: Gemini CLI, Codex, OpenCode
   - **Docker** & Docker Compose for containerization.
