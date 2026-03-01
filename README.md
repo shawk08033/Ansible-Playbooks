@@ -25,9 +25,10 @@ This repository contains Ansible playbooks to automatically provision and config
   - **Docker** & Docker Compose for containerization.
 - **Power User CLI:** `eza` (ls), `bat` (cat), `fzf` (fuzzy finder), `ripgrep` (search), `btop` (monitor), `fastfetch` (sysinfo).
 - **Gaming:** 
-  - **Steam**
+  - **Steam**, **Heroic Games Launcher** (Epic, GOG, Amazon), and **Lutris** (Ubisoft Connect, GOG).
+  - **ProtonUp-Qt** for managing Proton/Wine versions.
+  - Full **Wine-Staging** environment with 32-bit dependencies for maximum compatibility.
   - **MangoHud** for performance overlays.
-  - **GameMode** for system optimization.
 - **Communication:** Slack (Wayland), Teams, Telegram, and Outlook (Prospect Mail).
 - **Networking:** 
   - **Tailscale** for private mesh networking.
