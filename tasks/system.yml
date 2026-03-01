@@ -3,3 +3,42 @@
   pacman:
     update_cache: yes
     upgrade: yes
+
+- name: Install LDM tool for Windows Dynamic Disks
+  pacman:
+    name: libldm
+    state: present
+
+- name: Scan and create device nodes for Windows Dynamic Disks
+  shell: |
+    ldmtool create all
+  register: ldm_output
+  changed_when: "'Created' in ldm_output.stdout"
+  failed_when: false
+
+- name: Create mount points for Windows volumes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /mnt/games
+    - /mnt/storage
+
+- name: Mount Windows Games and Programes volume
+  mount:
+    path: /mnt/games
+    src: UUID=3A1434BA14347B49
+    fstype: ntfs3
+    opts: rw,noatime,uid=1000,gid=1000,umask=0022
+    state: mounted
+  ignore_errors: yes
+
+- name: Mount Windows Storage volume
+  mount:
+    path: /mnt/storage
+    src: UUID=34D6ED73D6ED35B0
+    fstype: ntfs3
+    opts: rw,noatime,uid=1000,gid=1000,umask=0022
+    state: mounted
+  ignore_errors: yes

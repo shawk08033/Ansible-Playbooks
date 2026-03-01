@@ -23,6 +23,28 @@
           slack &
       fi
 
+- name: Create LDM setup script
+  copy:
+    dest: "/home/{{ ansible_user_id }}/.local/bin/ldm_setup.sh"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      # Re-create LDM nodes
+      sudo ldmtool create all
+      # Mount them (if in fstab)
+      sudo mount -a
+
+- name: Allow {{ ansible_user_id }} to run ldmtool and mount without password
+  copy:
+    content: |
+      {{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/ldmtool
+      {{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/mount -a
+    dest: /etc/sudoers.d/ldm-mount
+    mode: '0440'
+    validate: /usr/sbin/visudo -cf %s
+
 - name: Ensure autostart directory exists
   file:
     path: "/home/{{ ansible_user_id }}/.config/autostart"
@@ -31,18 +53,18 @@
     group: "{{ ansible_user_id }}"
     mode: '0755'
 
-- name: Create autostart desktop entry for weekday apps
+- name: Create autostart desktop entry for LDM mount
   copy:
-    dest: "/home/{{ ansible_user_id }}/.config/autostart/weekday_apps.desktop"
+    dest: "/home/{{ ansible_user_id }}/.config/autostart/ldm_mount.desktop"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: '0644'
     content: |
       [Desktop Entry]
       Type=Application
-      Exec=/home/{{ ansible_user_id }}/.local/bin/weekday_startup.sh
+      Exec=/home/{{ ansible_user_id }}/.local/bin/ldm_setup.sh
       Hidden=false
       NoDisplay=false
       X-GNOME-Autostart-enabled=true
-      Name=Weekday Startup
-      Comment=Starts Teams and Slack only on weekdays
+      Name=LDM Mount
+      Comment=Mounts Windows Dynamic Disks at startup
