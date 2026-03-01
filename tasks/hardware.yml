@@ -28,7 +28,7 @@
 - name: Add user to necessary groups for hardware access
   user:
     name: "{{ user_id }}"
-    groups: plugdev,video
+    groups: plugdev,video,gamemode
     append: yes
 
 - name: Ensure OpenRazer daemon is enabled
