@@ -87,3 +87,36 @@
   file:
     path: /etc/sudoers.d/ansible-aur
     state: absent
+
+- name: Ensure Heroic config directory exists
+  file:
+    path: "/home/{{ user_id }}/.config/heroic"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+
+- name: Set Heroic default paths (Game Data on NTFS, Prefixes on Btrfs)
+  copy:
+    dest: "/home/{{ user_id }}/.config/heroic/config.json"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      {
+        "defaultSettings": {
+          "defaultInstallPath": "/mnt/games/Heroic",
+          "defaultWinePrefix": "/home/{{ user_id }}/Games/Heroic/Prefixes",
+          "autoInstallDxvk": true,
+          "autoInstallVkd3d": true,
+          "autoInstallDxvkNvapi": true,
+          "useGameMode": true,
+          "wineVersion": {
+            "bin": "/usr/bin/wine",
+            "name": "wine-staging",
+            "type": "wine",
+            "wineserver": "/usr/bin/wineserver"
+          }
+        },
+        "version": "v0"
+      }
