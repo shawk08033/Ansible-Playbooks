@@ -5,13 +5,24 @@ This repository contains Ansible playbooks to automatically provision and config
 ## Features
 
 - **Window Managers:** Hybrid setup with GNOME and a fully configured **Hyprland** (CachyOS optimized).
+- **Terminals:** **Ghostty** (native, fast, feature-rich) with Starship prompt.
+- **Hardware Drivers:**
+  - **NVIDIA:** CachyOS-optimized proprietary drivers for RTX 4060.
+  - **Intel:** Media and Vulkan drivers for Arrow Lake iGPU.
+  - **Razer:** OpenRazer drivers and Polychromatic for peripheral control.
+  - **Webcam:** v4l2loopback for Insta360 and other virtual camera support.
 - **Development:** 
   - Node.js & NPM
-  - Cursor & Claude Desktop
+  - Cursor, Claude Desktop, Slack, Teams
   - GitHub CLI (gh)
   - AI Tools: Gemini CLI, Codex, OpenCode
+  - **Docker** & Docker Compose for containerization.
+- **Power User CLI:** `eza` (ls), `bat` (cat), `fzf` (fuzzy finder), `ripgrep` (search), `btop` (monitor), `fastfetch` (sysinfo).
+- **Gaming:** 
+  - **Steam**
+  - **MangoHud** for performance overlays.
+  - **GameMode** for system optimization.
 - **Communication:** Slack (Wayland), Teams, Telegram, and Outlook (Prospect Mail).
-- **Gaming:** Steam and system-wide gaming dependencies.
 - **Networking:** 
   - **Tailscale** for private mesh networking.
   - **NordVPN** with automated split-tunneling (whitelisting Tailscale subnet `100.64.0.0/10`).
