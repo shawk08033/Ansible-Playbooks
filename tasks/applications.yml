@@ -13,7 +13,7 @@
       - flameshot
       - gnome-keyring
       - libsecret
-      - vesktop
+      - discord
       - giflib
       - lib32-giflib
       - libpng
@@ -60,6 +60,11 @@
       - lib32-vulkan-icd-loader
     state: present
 
+- name: Remove Vesktop (replaced by official Discord)
+  pacman:
+    name: vesktop
+    state: absent
+
 - name: Allow {{ user_id }} to run pacman without password for AUR tasks
   copy:
     content: "{{ user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
@@ -99,7 +104,7 @@
     group: "{{ user_id }}"
     mode: '0755'
 
-- name: Set Heroic default paths (Game Data on NTFS, Prefixes on Btrfs)
+- name: Set Heroic default paths (Game Data and Prefixes on Btrfs)
   copy:
     dest: "/home/{{ user_id }}/.config/heroic/config.json"
     owner: "{{ user_id }}"
@@ -109,7 +114,7 @@
       {
         "defaultSettings": {
           "defaultInstallPath": "/mnt/games/Heroic",
-          "defaultWinePrefix": "/home/{{ user_id }}/Games/Heroic/Prefixes",
+          "defaultWinePrefix": "/mnt/games/Heroic/Prefixes",
           "autoInstallDxvk": true,
           "autoInstallVkd3d": true,
           "autoInstallDxvkNvapi": true,
@@ -141,7 +146,7 @@
     content: |
       [lutris]
       default_installer_path = /mnt/games/Lutris
-      wine_prefix = /home/{{ user_id }}/Games/Lutris/Prefixes
+      wine_prefix = /mnt/games/Lutris/Prefixes
 
 - name: Ensure local applications directory exists
   file:
@@ -194,6 +199,14 @@
 - name: Ensure Lutris local share directory exists
   file:
     path: "/home/{{ user_id }}/.local/share/lutris"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+
+- name: Create Steam Library directory on Btrfs
+  file:
+    path: "/mnt/games/Steam"
     state: directory
     owner: "{{ user_id }}"
     group: "{{ user_id }}"
