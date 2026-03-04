@@ -24,9 +24,11 @@
 
     - name: Applications (Official & AUR)
       include_tasks: tasks/applications.yml
+      tags: apps
 
     - name: Desktop Environment (Hyprland & GNOME)
       include_tasks: tasks/desktop_env.yml
+      tags: desktop
 
     - name: CLI Power User Tools
       include_tasks: tasks/cli.yml

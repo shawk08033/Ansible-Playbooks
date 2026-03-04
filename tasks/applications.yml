@@ -59,18 +59,20 @@
       - vulkan-icd-loader
       - lib32-vulkan-icd-loader
     state: present
+  tags: apps
 
 - name: Remove Vesktop (replaced by official Discord)
   pacman:
     name: vesktop
     state: absent
 
-- name: Allow {{ user_id }} to run pacman without password for AUR tasks
+- name: Allow {{ user_id }} to run ALL without password for AUR tasks
   copy:
-    content: "{{ user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    content: "{{ user_id }} ALL=(ALL) NOPASSWD: ALL"
     dest: /etc/sudoers.d/ansible-aur
     mode: '0440'
     validate: /usr/sbin/visudo -cf %s
+  tags: apps
 
 - name: Install AUR packages using paru
   become: true
@@ -84,17 +86,25 @@
       - slack-desktop-wayland
       - prospect-mail
       - polychromatic
+      - gnome-shell-extensions
       - gnome-shell-extension-multi-monitors-add-on-git
+      - gnome-shell-extension-pop-shell-git
+      - pop-gtk-theme
+      - pop-icon-theme
+      - gnome-shell-extension-dash-to-dock
       - cc-switch-cli-bin
       - nordvpn-gui-bin
     use: paru
     state: present
+    extra_args: --noconfirm
   register: aur_install
+  tags: apps
 
 - name: Remove temporary sudoers file for AUR
   file:
     path: /etc/sudoers.d/ansible-aur
     state: absent
+  tags: apps
 
 - name: Ensure Heroic config directory exists
   file:

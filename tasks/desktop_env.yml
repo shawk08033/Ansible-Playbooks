@@ -14,10 +14,38 @@
       - qt6-wayland
     state: present
 
-- name: Enable GNOME Multi Monitors extension
+- name: Enable GNOME Extensions (Pop Shell and Dash to Dock)
   become: true
   become_user: "{{ user_id }}"
   shell: |
+    gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+    gnome-extensions enable pop-shell@system76.com
+    gnome-extensions enable dash-to-dock@micxgx.gmail.com
     gnome-extensions enable multi-monitors-add-on@spin83
   ignore_errors: yes
   changed_when: false
+  tags: desktop
+
+- name: Configure GNOME Themes (Pop OS style)
+  become: true
+  become_user: "{{ user_id }}"
+  shell: |
+    gsettings set org.gnome.desktop.interface gtk-theme "Pop-dark"
+    gsettings set org.gnome.desktop.interface icon-theme "Pop"
+    gsettings set org.gnome.desktop.wm.preferences theme "Pop-dark"
+    gsettings set org.gnome.shell.extensions.user-theme name "Pop-dark"
+  ignore_errors: yes
+  changed_when: false
+  tags: desktop
+
+- name: Configure Dash to Dock (Pop OS style)
+  become: true
+  become_user: "{{ user_id }}"
+  shell: |
+    gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+    gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+    gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+    gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'DYNAMIC'
+  ignore_errors: yes
+  changed_when: false
+  tags: desktop
