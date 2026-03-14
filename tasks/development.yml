@@ -4,6 +4,7 @@
     name:
       - nodejs
       - npm
+      - bun
       - github-cli
       - docker
       - docker-compose

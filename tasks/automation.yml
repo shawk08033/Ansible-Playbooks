@@ -69,6 +69,22 @@
       Name=LDM Mount
       Comment=Mounts Windows Dynamic Disks at startup
 
+- name: Create autostart desktop entry for weekday apps
+  copy:
+    dest: "/home/{{ user_id }}/.config/autostart/weekday_apps.desktop"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Exec=/home/{{ user_id }}/.local/bin/weekday_startup.sh
+      Hidden=false
+      NoDisplay=false
+      X-GNOME-Autostart-enabled=true
+      Name=Weekday Startup
+      Comment=Starts Teams and Slack only on weekdays
+
 - name: Configure HDD Spindown via udev rules (10 minutes)
   copy:
     dest: /etc/udev/rules.d/69-hd-spindown.rules

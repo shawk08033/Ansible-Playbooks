@@ -22,6 +22,8 @@
     gnome-extensions enable pop-shell@system76.com
     gnome-extensions enable dash-to-dock@micxgx.gmail.com
     gnome-extensions enable multi-monitors-add-on@spin83
+    gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com
+    gnome-extensions enable Vitals@CoreCoding.com
   ignore_errors: yes
   changed_when: false
   tags: desktop

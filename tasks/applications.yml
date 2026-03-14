@@ -8,6 +8,7 @@
       - heroic-games-launcher
       - lutris
       - protonup-qt
+      - fuse2
       - wine-staging
       - winetricks
       - flameshot
@@ -54,6 +55,7 @@
       - lib32-libva
       - gtk3
       - lib32-gtk3
+      - libappindicator-gtk3
       - gst-plugins-base-libs
       - lib32-gst-plugins-base-libs
       - vulkan-icd-loader
@@ -92,6 +94,8 @@
       - pop-gtk-theme
       - pop-icon-theme
       - gnome-shell-extension-dash-to-dock
+      - gnome-shell-extension-appindicator
+      - gnome-shell-extension-vitals
       - cc-switch-cli-bin
       - nordvpn-gui-bin
     use: paru
@@ -221,3 +225,40 @@
     owner: "{{ user_id }}"
     group: "{{ user_id }}"
     mode: '0755'
+
+- name: Ensure Applications directory exists
+  file:
+    path: "/home/{{ user_id }}/Applications"
+    state: directory
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+  tags: apps
+
+- name: Copy T3-Code AppImage to Applications directory
+  copy:
+    src: "/home/{{ user_id }}/Downloads/T3-Code-0.0.11-x86_64.AppImage"
+    dest: "/home/{{ user_id }}/Applications/T3-Code.AppImage"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0755'
+    remote_src: true
+  ignore_errors: true
+  tags: apps
+
+- name: Create T3-Code Desktop Entry
+  copy:
+    dest: "/home/{{ user_id }}/.local/share/applications/t3-code.desktop"
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Name=T3-Code
+      Exec=/home/{{ user_id }}/Applications/T3-Code.AppImage
+      Icon=utilities-terminal
+      Type=Application
+      Terminal=false
+      Categories=Development;
+      Comment=T3-Code AppImage
+  tags: apps

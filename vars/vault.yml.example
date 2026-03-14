@@ -14,3 +14,10 @@ local_subnet: "192.168.2.0/24"
 unraid_documents_remote_path: "/mnt/user/Documents"
 windows_games_uuid: "3A1434BA14347B49"
 windows_storage_uuid: "34D6ED73D6ED35B0"
+
+# AppImages to install from Downloads
+# appimages:
+#   - name: "T3-Code"
+#     file: "T3-Code-0.0.11-x86_64.AppImage"
+#     icon: "utilities-terminal"
+#     category: "Development"

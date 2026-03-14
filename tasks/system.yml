@@ -28,9 +28,9 @@
 - name: Mount Windows Games and Programes volume
   mount:
     path: /mnt/games
-    src: UUID={{ windows_games_uuid }}
-    fstype: ntfs3
-    opts: rw,noatime,uid=1000,gid=1000,umask=0022,nofail,x-systemd.device-timeout=5s
+    src: UUID=78f69d1e-20a1-4c64-89f9-06425a3d6296
+    fstype: btrfs
+    opts: rw,noatime,compress=zstd:3,autodefrag,nofail,x-systemd.device-timeout=5s
     state: mounted
   ignore_errors: yes
 

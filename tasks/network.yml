@@ -36,17 +36,55 @@
   failed_when: false
   ignore_errors: yes
 
-- name: Create mount point for Unraid Documents
+- name: Check if mount points exist
+  stat:
+    path: "/mnt/unraid_{{ item.name | lower | replace(' ', '_') }}"
+  loop:
+    - { name: 'Back Ups' }
+    - { name: 'Documents' }
+    - { name: 'Media' }
+    - { name: 'Pictures' }
+  register: mount_points_stat
+
+- name: Create mount points for Unraid shares
   file:
-    path: /mnt/unraid_documents
+    path: "/mnt/unraid_{{ item.name | lower | replace(' ', '_') }}"
     state: directory
     mode: '0755'
-  when: ansible_mounts | selectattr('mount', 'equalto', '/mnt/unraid_documents') | list | length == 0
+  loop:
+    - { name: 'Back Ups' }
+    - { name: 'Documents' }
+    - { name: 'Media' }
+    - { name: 'Pictures' }
+  loop_control:
+    index_var: idx
+  when: not mount_points_stat.results[idx].stat.exists
 
-- name: Mount Unraid Documents share
+- name: Mount Unraid shares
   mount:
-    path: /mnt/unraid_documents
-    src: "{{ unraid_ip }}:{{ unraid_documents_remote_path }}"
+    path: "/mnt/unraid_{{ item.name | lower | replace(' ', '_') }}"
+    src: "{{ unraid_ip }}:/mnt/user/{{ item.name }}"
     fstype: nfs
     opts: rw,noatime,nofail,x-systemd.automount,x-systemd.idle-timeout=600
     state: mounted
+  loop:
+    - { name: 'Back Ups' }
+    - { name: 'Documents' }
+    - { name: 'Media' }
+    - { name: 'Pictures' }
+
+- name: Ensure GNOME bookmarks for mounts
+  lineinfile:
+    path: "/home/{{ user_id }}/.config/gtk-3.0/bookmarks"
+    line: "file://{{ item.path }} {{ item.label }}"
+    create: yes
+    owner: "{{ user_id }}"
+    group: "{{ user_id }}"
+    mode: '0644'
+  loop:
+    - { path: '/mnt/unraid_back_ups', label: 'Unraid Back Ups' }
+    - { path: '/mnt/unraid_documents', label: 'Unraid Documents' }
+    - { path: '/mnt/unraid_media', label: 'Unraid Media' }
+    - { path: '/mnt/unraid_pictures', label: 'Unraid Pictures' }
+    - { path: '/mnt/games', label: 'Games' }
+    - { path: '/mnt/storage', label: 'Storage' }
